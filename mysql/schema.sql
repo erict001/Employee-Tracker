@@ -6,17 +6,18 @@ USE employee_db;
 -- DEPARTMENT TABLE ----
 CREATE TABLE department (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  names VARCHAR(30)
+  names VARCHAR(30) NOT NULL
 );
 
 -- DEPARTMENT TABLE ----
 CREATE TABLE roles (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(30) NOT NULL,
-  salary DECIMAL NOT NULL,
   department_id INT,
+  salary INT NOT NULL,
   FOREIGN KEY (department_id) 
   REFERENCES department(id)
+  ON DELETE SET NULL
 );
 
 -- EMPLOYEE ROLE TABLE ----
@@ -26,6 +27,7 @@ CREATE TABLE employee (
   last_name VARCHAR(30) NOT NULL,
   manager_id INT,
   role_id INT,
-  FOREIGN KEY (role_id) REFERENCES roles(id),
+  FOREIGN KEY (role_id) REFERENCES roles(id)
   FOREIGN KEY (manager_id) REFERENCES employee(id)
+  ON DELETE SET NULL
 );

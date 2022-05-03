@@ -5,21 +5,21 @@ VALUES
     ("Finance"),
     ("Legal");
 
-INSERT INTO roles (id, title, salary, department)
+INSERT INTO roles (title, id, department_id, salary )
 VALUES 
-    ("Sales Lead", 10000, "Sales"),
-    ("Salesperson", 10000, "Sales"),
-    ("Lead Engineer", 10000, "Engineering"),
-    ("Software Engineer", 1000, "Engineering"),
-    ("Account Manager", 1000, "Finance"),
-    ("Accountant", 3000, "Finance"),
-    ("Legal Team Lawyer", 40000, "Legal"),
-    ("Lawyer", 5000, "Legal");
+    ("Sales Lead", 1, 1, 10000),
+    ("Salesperson", 2, 1, 10000),
+    ("Lead Engineer", 3, 2, 10000),
+    ("Software Engineer", 5, 2, 1000),
+    ("Account Manager", 4, 3, 1000),
+    ("Accountant", 6, 3, 3000),
+    ("Legal Team Lawyer", 7, 4,  40000),
+    ("Lawyer", 8, 4, 5000);
 
 INSERT INTO employee (first_name, last_name, manager_id, role_id)
 VALUES
-    ("Frank", "Catania Sr.", 3, 005),
-    ("Joe", "Gorga", null, 010),
-    ("Bill", "Ayden", 12, 015),
-    ("Evan", "Goldschneider", null, 339),
-    ("Joe", "Benigno", null, 212);
+    ("Frank", "Catania Sr.", null, 1),
+    ("Joe", "Gorga", null, 2),
+    ("Bill", "Ayden", 3, 3),
+    ("Evan", "Goldschneider", null, 6),
+    ("Joe", "Benigno", 1, 8);

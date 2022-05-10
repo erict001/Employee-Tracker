@@ -1,8 +1,6 @@
 const inquirer = require('inquirer')
-const fs = require('fs')
 const console_table = require('console.table');
 const mysql = require('mysql2');
-const res = require('express/lib/response');
 
 
 //creating a connection to mySQL using the database "classlist_db"
@@ -30,7 +28,7 @@ inquirer.prompt ([
             "add a department",
             "add a role",
             "add an employee",
-            "update an employee role"
+            "update an employee",
         ]
     }
 ]).then ((answers) => {
@@ -85,7 +83,7 @@ function allRoles() {
 
 // view all employees
 function allEmployees() {
-    db.query("SELECT employee.id, employee.first_name, employee.last_name, department.name AS department FROM employee, JOIN roles ON employee.id = roles.id JOIN department ON roles.department_id = department.id ORDER BY employee.id",
+    db.query("Select employee.id, employee.first_name, employee.last_name, manager.first_name AS manager, roles.title, roles.salary, department.names AS department FROM employee LEFT JOIN roles ON employee.role_id = roles.id LEFT JOIN department ON roles.department_id = department.id LEFT JOIN employee manager ON manager.id = employee.manager_id",
     function (err, results) {
         if(err) throw (err);
         console.table(results);
@@ -186,35 +184,37 @@ const addEmployee = () => {
     })
 )};
 
-    // update an Employee
+// update an Employee
 const updateEmployee = () => {
     inquirer.prompt([
-        {
-            type: "input",
-            name: "addRoleName",
-            message: "Which employee would you like to update?",
-        },
-        {
-            type: "input",
-            name: "addRoleDepartment",
-            message: "What role does this employee have?",
-        }
-    ]).then ((function (answers) {
-        db.query('UPDATE employee WHERE ? SET ?', 
-        [ 
             {
-                role_id: answers.addRoleName     
+                type: "input",
+                name: "addRoleName",
+                message: "Which employee would you like to update?",
+                choices: employees
             },
             {
-                role_id: answers.addRoleDepartment     
+                type: "input",
+                name: "addRoleDepartment",
+                message: "What role id does this employee now have?",
+                choices: roles
             }
-        ], 
-        function (err, results) {
-        if(err) throw (err);
-            
-        console.table(results)
-        startPrompt();
-        });
+        ]).then((function (answers) {
+            db.query('UPDATE employee WHERE ? SET ?', 
+            [ 
+                {
+                    first_name, last_name: answers.addRoleName     
+                },
+                {
+                    roles_id: answers.addRoleDepartment     
+                }
+            ], 
+            function (err, results) {
+                if(err) throw (err);
+                
+                console.table(results)
+                startPrompt();
+            });
     }))
 };
 
